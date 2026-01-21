@@ -38,8 +38,8 @@ async def internal_error_handler(request: Request, exc):
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://hackathon-ii-phase-2-todo-full-stack-web-application-2a7i1x56c.vercel.app",  # Production frontend
-        "https://nishanazar-new-repo.hf.space",  # Hugging Face Space for backend
+        "https://hackathon-ii-phase-iii-todo-full-stack-web-applicati-377xbdnbb.vercel.app",  # Production frontend
+        "https://nishanazar-backend3.hf.space",  # Hugging Face Space for backend
         "http://localhost:3000",  # Local development frontend
         "http://localhost:3001",  # Alternative local development frontend
         "http://localhost:3003",  # Alternative local development frontend (Next.js default when 3000/3001/3002 are taken)

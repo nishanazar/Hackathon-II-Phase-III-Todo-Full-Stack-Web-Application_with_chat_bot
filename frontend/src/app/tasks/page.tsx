@@ -50,9 +50,19 @@ const TasksPage = () => {
 
     loadTasks();
 
+    // Listen for tasksModified event dispatched by the chat widget
+    const handleTasksModified = () => {
+      if (isMounted) {
+        loadTasks();
+      }
+    };
+
+    window.addEventListener('tasksModified', handleTasksModified);
+
     // Cleanup function to set isMounted to false when component unmounts
     return () => {
       isMounted = false;
+      window.removeEventListener('tasksModified', handleTasksModified);
     };
   }, []); // Empty dependency array to run only once on mount
 

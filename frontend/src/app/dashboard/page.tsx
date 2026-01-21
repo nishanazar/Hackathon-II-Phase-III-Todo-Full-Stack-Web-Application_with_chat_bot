@@ -53,10 +53,18 @@ const DashboardPage = () => {
 
     window.addEventListener('focus', handleFocus);
 
+    // Listen for tasksModified event dispatched by the chat widget
+    const handleTasksModified = () => {
+      loadTasks();
+    };
+
+    window.addEventListener('tasksModified', handleTasksModified);
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('tasksModified', handleTasksModified);
     };
   }, [user]);
 

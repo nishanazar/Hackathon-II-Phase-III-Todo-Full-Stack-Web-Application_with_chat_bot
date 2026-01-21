@@ -27,7 +27,7 @@ export interface UpdateTaskData {
 
 // API base URL - in production, this would be the backend server URL
 // Note: This should be the base URL without the /api part, as that's added in the routes
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
 
 // Helper function to get the current user ID from the session
 async function getCurrentUserId(): Promise<string> {

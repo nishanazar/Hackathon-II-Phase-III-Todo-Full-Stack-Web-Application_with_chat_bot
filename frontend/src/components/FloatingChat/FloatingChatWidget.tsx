@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { getCurrentSession } from '@/lib/session-utils';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Message {
   id: string;
@@ -42,12 +44,20 @@ const FloatingChatWidget = () => {
     setIsLoading(true);
 
     try {
+      // Get the current user ID from the session
+      const session = await getCurrentSession();
+      if (!session) {
+        throw new Error('No active session found. Please log in.');
+      }
+
+      const userId = session.user.id;
+
       // Call backend API to get AI response
-      // Note: This assumes you have a public endpoint or handle auth differently
-      const response = await fetch('/api/chat', { // Changed to a generic endpoint
+      const response = await fetch(`${API_BASE_URL}/api/${userId}/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.token}`,
         },
         body: JSON.stringify({ message: inputValue }),
       });
@@ -67,6 +77,14 @@ const FloatingChatWidget = () => {
       };
 
       setMessages(prev => [...prev, aiMessage]);
+
+      // Check if tasks were modified and trigger a refresh if needed
+      // This will notify other parts of the app to refresh task lists
+      if (data.task_created || (data.tool_calls && data.tool_calls.some(call =>
+        ['add_task', 'update_task', 'delete_task', 'complete_task'].includes(call.name)))) {
+        // Dispatch a custom event to notify other components to refresh tasks
+        window.dispatchEvent(new CustomEvent('tasksModified', { detail: { action: 'refresh' } }));
+      }
     } catch (error) {
       console.error('Error sending message:', error);
 

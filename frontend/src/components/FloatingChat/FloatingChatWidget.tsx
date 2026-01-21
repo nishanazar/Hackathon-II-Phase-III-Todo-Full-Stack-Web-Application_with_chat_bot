@@ -80,7 +80,7 @@ const FloatingChatWidget = () => {
 
       // Check if tasks were modified and trigger a refresh if needed
       // This will notify other parts of the app to refresh task lists
-      if (data.task_created || (data.tool_calls && data.tool_calls.some(call =>
+      if (data.task_created || (data.tool_calls && data.tool_calls.some((call: any) =>
         ['add_task', 'update_task', 'delete_task', 'complete_task'].includes(call.name)))) {
         // Dispatch a custom event to notify other components to refresh tasks
         window.dispatchEvent(new CustomEvent('tasksModified', { detail: { action: 'refresh' } }));

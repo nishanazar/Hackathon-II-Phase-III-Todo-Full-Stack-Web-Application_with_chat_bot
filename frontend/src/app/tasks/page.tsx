@@ -111,20 +111,35 @@ const TasksPage = () => {
 
   // Handle toggling task completion
   const handleToggleComplete = async (task: Task) => {
+    // Optimistically update the UI immediately for responsiveness
+    setTasks(prevTasks =>
+      prevTasks.map(t =>
+        t.id === task.id ? { ...t, completed: !t.completed } : t
+      )
+    );
+
     try {
       setError(null);
+
+      // Update the backend
       const updatedTask = await taskApi.patchTask(task.id, {
         completed: !task.completed
       });
 
+      // Update with the actual server response to ensure consistency
       setTasks(prevTasks =>
         prevTasks.map(t =>
           t.id === task.id ? updatedTask : t
         )
       );
+
+      // Dispatch the event to notify other components only after successful API call
+      window.dispatchEvent(new CustomEvent('tasksModified', { detail: { action: 'refresh' } }));
     } catch (error) {
       console.error('Error toggling task completion:', error);
-      setError(error instanceof Error ? error.message : 'Failed to update task');
+      // Don't revert the UI change as users expect their action to stick
+      // Instead, show an error message to inform them of the sync issue
+      setError('Warning: Task status updated locally but failed to sync with server. Please refresh the page or check your connection.');
     }
   };
 
@@ -139,6 +154,9 @@ const TasksPage = () => {
       setError(null);
       await taskApi.deleteTask(id);
       setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+
+      // Dispatch the same event as the AI agent to notify other components
+      window.dispatchEvent(new CustomEvent('tasksModified', { detail: { action: 'refresh' } }));
     } catch (error) {
       console.error('Error deleting task:', error);
       setError(error instanceof Error ? error.message : 'Failed to delete task');

@@ -159,7 +159,12 @@ const TasksPage = () => {
       window.dispatchEvent(new CustomEvent('tasksModified', { detail: { action: 'refresh' } }));
     } catch (error) {
       console.error('Error deleting task:', error);
-      setError(error instanceof Error ? error.message : 'Failed to delete task');
+      // Provide more specific error message for network/CORS issues
+      if (error instanceof Error && error.message.includes('Network error or CORS issue')) {
+        setError('Unable to connect to the server. Please make sure the backend is running and accessible.');
+      } else {
+        setError(error instanceof Error ? error.message : 'Failed to delete task');
+      }
     }
   };
 

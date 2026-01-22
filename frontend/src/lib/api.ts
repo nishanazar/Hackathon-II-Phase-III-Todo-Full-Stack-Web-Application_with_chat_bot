@@ -220,7 +220,7 @@ export const taskApi = {
   getTask: async (taskId: string): Promise<Task> => {
     // Get the current user ID to construct the proper API endpoint
     const userId = await getCurrentUserId();
-    const url = `${API_BASE_URL}/api/${userId}/tasks/${taskId}/`;  // Added trailing slash
+    const url = `${API_BASE_URL}/api/${userId}/tasks/${taskId}`;  // Removed trailing slash to match backend route
 
     return makeAuthenticatedRequest(url, {
       method: 'GET',
@@ -231,7 +231,7 @@ export const taskApi = {
   updateTask: async (taskId: string, taskData: UpdateTaskData): Promise<Task> => {
     // Get the current user ID to construct the proper API endpoint
     const userId = await getCurrentUserId();
-    const url = `${API_BASE_URL}/api/${userId}/tasks/${taskId}/`;  // Added trailing slash
+    const url = `${API_BASE_URL}/api/${userId}/tasks/${taskId}`;  // Removed trailing slash to match backend route
 
     return makeAuthenticatedRequest(url, {
       method: 'PUT',
@@ -247,7 +247,7 @@ export const taskApi = {
   patchTask: async (taskId: string, taskData: Partial<UpdateTaskData>): Promise<Task> => {
     // Get the current user ID to construct the proper API endpoint
     const userId = await getCurrentUserId();
-    const url = `${API_BASE_URL}/api/${userId}/tasks/${taskId}/`;  // Using the same endpoint for PATCH
+    const url = `${API_BASE_URL}/api/${userId}/tasks/${taskId}`;  // Using the same endpoint for PATCH, removed trailing slash
 
     return makeAuthenticatedRequest(url, {
       method: 'PATCH',
@@ -261,7 +261,7 @@ export const taskApi = {
   deleteTask: async (taskId: string): Promise<void> => {
     // Get the current user ID to construct the proper API endpoint
     const userId = await getCurrentUserId();
-    const url = `${API_BASE_URL}/api/${userId}/tasks/${taskId}/`;  // Added trailing slash
+    const url = `${API_BASE_URL}/api/${userId}/tasks/${taskId}`;  // Removed trailing slash to match backend route
 
     await makeAuthenticatedRequest(url, {
       method: 'DELETE',

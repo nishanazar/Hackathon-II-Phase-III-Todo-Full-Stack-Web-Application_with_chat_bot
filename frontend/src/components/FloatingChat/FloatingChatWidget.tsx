@@ -103,14 +103,14 @@ const FloatingChatWidget = () => {
   };
 
   return (
-    <div className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ${isOpen ? 'w-full max-w-md h-[60vh] sm:h-[400px]' : 'w-auto h-auto'}`}>
+    <div className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ${isOpen ? 'w-full max-w-full md:max-w-md h-[60vh] md:h-[400px] inset-x-2 md:inset-x-auto' : 'w-auto h-auto'}`}>
       {isOpen ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden w-full h-full flex flex-col border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden w-full h-full flex flex-col border border-gray-200 dark:border-gray-700 flex-nowrap">
           <div className="flex justify-between items-center p-3 bg-blue-500 text-white flex-shrink-0">
-            <span>AI Assistant</span>
+            <span className="truncate">AI Assistant</span>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-white hover:bg-blue-600 rounded-full p-1 transition-colors"
+              className="text-white hover:bg-blue-600 rounded-full p-1 transition-colors ml-2"
               aria-label="Close chat"
             >
               ×
@@ -118,8 +118,8 @@ const FloatingChatWidget = () => {
           </div>
           <div className="flex-grow overflow-y-auto p-3 bg-gray-50 dark:bg-gray-900">
             {messages.length === 0 ? (
-              <div className="h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
-                <p>Ask me anything! How can I help you today?</p>
+              <div className="h-full flex items-center justify-center text-gray-500 dark:text-gray-400 p-4">
+                <p className="text-center">Ask me anything! How can I help you today?</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -129,10 +129,10 @@ const FloatingChatWidget = () => {
                     className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-lg p-2 ${
+                      className={`max-w-[80%] rounded-lg p-3 ${
                         message.role === 'user'
-                          ? 'bg-blue-500 text-white rounded-br-none'
-                          : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none'
+                          ? 'bg-blue-500 text-white rounded-br-none break-words'
+                          : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none break-words'
                       }`}
                     >
                       {message.content}
@@ -154,18 +154,18 @@ const FloatingChatWidget = () => {
               </div>
             )}
           </div>
-          <form onSubmit={handleSubmit} className="border-t border-gray-200 dark:border-gray-700 p-2 bg-white dark:bg-gray-800 flex">
+          <form onSubmit={handleSubmit} className="border-t border-gray-200 dark:border-gray-700 p-2 bg-white dark:bg-gray-800 flex flex-col sm:flex-row gap-2">
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Type your message..."
-              className="flex-grow px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              className="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               disabled={isLoading}
             />
             <button
               type="submit"
-              className="bg-blue-500 text-white px-3 py-1 rounded-r-lg hover:bg-blue-600 disabled:opacity-50"
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 whitespace-nowrap"
               disabled={!inputValue.trim() || isLoading}
             >
               Send

@@ -103,7 +103,7 @@ const FloatingChatWidget = () => {
   };
 
   return (
-    <div className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ${isOpen ? 'w-full max-w-full md:max-w-md h-[60vh] md:h-[400px] inset-x-2 md:inset-x-auto' : 'w-auto h-auto'}`}>
+    <div className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ${isOpen ? 'w-full max-w-full md:max-w-md h-[60vh] md:h-[400px] inset-x-0 md:right-4 md:left-auto' : 'w-auto h-auto'}`}>
       {isOpen ? (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden w-full h-full flex flex-col border border-gray-200 dark:border-gray-700 flex-nowrap">
           <div className="flex justify-between items-center p-3 bg-blue-500 text-white flex-shrink-0">
